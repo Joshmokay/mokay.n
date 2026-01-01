@@ -1,0 +1,371 @@
+/* =========================================
+   1. CSS VARIABLES & RESET
+   ========================================= */
+:root {
+    --bg-dark: #050510;
+    --neon-gold: #FFD700;
+    --neon-cyan: #00F3FF;
+    --neon-purple: #BC13FE;
+    --text-main: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --glass-bg: rgba(20, 20, 35, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Poppins', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* =========================================
+   2. BACKGROUND VISUALS
+   ========================================= */
+.bg-image {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* High-res starry night / mountain abstract */
+    background: url('https://images.unsplash.com/photo-1519681393784-d8e5b5a45742?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+    z-index: 0;
+    filter: brightness(0.35) contrast(1.1);
+    transition: transform 0.2s ease-out;
+}
+
+/* Twinkling Stars Container */
+.stars-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: twinkle var(--duration) ease-in-out infinite;
+    animation-delay: var(--delay);
+}
+
+@keyframes twinkle {
+    0% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+    100% { opacity: 0; transform: scale(0.5); }
+}
+
+/* Canvas for Fireworks */
+#canvas {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* =========================================
+   3. MAIN GLASS CARD DESIGN
+   ========================================= */
+.glass-card {
+    position: relative;
+    z-index: 10;
+    width: 90%;
+    max-width: 520px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Card Header Image */
+.card-header {
+    width: 100%;
+    height: 180px;
+    position: relative;
+}
+
+.header-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Calm Nature Image */
+    background: url('https://images.unsplash.com/photo-1504194921103-f8b80cadd5e4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover;
+    mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+    opacity: 0.9;
+}
+
+/* Content Area */
+.card-content {
+    padding: 0 2.5rem 2.5rem 2.5rem;
+    margin-top: -50px; /* Pull content up over the faded image */
+    text-align: center;
+}
+
+/* Headings */
+.year-heading {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #ffffff 20%, var(--neon-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+}
+
+.subtitle {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.85rem;
+    color: var(--neon-cyan);
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+/* Verse & Reflection Box */
+.verse-container {
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.5s ease;
+}
+
+.verse-text {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    line-height: 1.5;
+    font-style: italic;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.verse-ref {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--neon-gold);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.reflection-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    display: none; /* Hidden by default */
+}
+
+/* Buttons */
+.controls-wrapper {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Primary Action Button */
+.btn-generate {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+    color: white;
+    box-shadow: 0 4px 15px rgba(188, 19, 254, 0.4);
+    flex: 2;
+    justify-content: center;
+    min-width: 160px;
+}
+
+.btn-generate:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(188, 19, 254, 0.6);
+}
+
+.btn-generate:active {
+    transform: scale(0.98);
+}
+
+/* Music Button */
+.btn-music {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    flex: 1;
+    justify-content: center;
+    min-width: 120px;
+}
+
+.btn-music:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--neon-gold);
+    color: var(--neon-gold);
+}
+
+.btn-music.playing {
+    border-color: var(--neon-gold);
+    color: var(--neon-gold);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+/* Music Bars Animation (Inside Button) */
+.music-bars {
+    display: flex;
+    align-items: flex-end;
+    height: 12px;
+    gap: 2px;
+    display: none; /* Hidden when paused */
+}
+
+.playing .music-bars {
+    display: flex;
+}
+
+.bar {
+    width: 3px;
+    background-color: var(--neon-gold);
+    animation: equalize 1s infinite;
+}
+.bar:nth-child(1) { animation-delay: 0.1s; height: 40%; }
+.bar:nth-child(2) { animation-delay: 0.2s; height: 80%; }
+.bar:nth-child(3) { animation-delay: 0.3s; height: 50%; }
+
+@keyframes equalize {
+    0% { height: 30%; }
+    50% { height: 100%; }
+    100% { height: 30%; }
+}
+
+/* Status Text */
+.status-msg {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 12px;
+    height: 20px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================
+   4. FOOTER & LYRICS
+   ========================================= */
+.lyrics-container {
+    position: absolute;
+    bottom: 80px;
+    width: 100%;
+    text-align: center;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.lyrics-text {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    z-index: 20;
+}
+
+.footer-text {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.footer-text span {
+    color: var(--neon-cyan);
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+/* Hidden YouTube Player */
+#youtube-player-container {
+    position: absolute;
+    visibility: hidden;
+    pointer-events: none;
+    width: 0; height: 0;
+}
+
+/* =========================================
+   5. ANIMATIONS
+   ========================================= */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Responsive Tweaks */
+@media (max-width: 600px) {
+    .glass-card { width: 95%; max-height: 90vh; }
+    .year-heading { font-size: 3rem; }
+    .verse-text { font-size: 1.1rem; }
+    .card-content { padding: 0 1.5rem 2rem 1.5rem; }
+    .btn-generate { width: 100%; order: 1; }
+    .btn-music { width: 100%; order: 2; margin-top: 5px; }
+    .lyrics-container { bottom: 120px; padding: 0 20px; }
+}
